@@ -4,7 +4,7 @@ import argparse
 import logging
 import re
 
-from telegram.ext import Updater, MessageHandler, Filters
+from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 from emoji import emojize
 
 import config
@@ -22,7 +22,7 @@ def resolve_args():
         )
 
 
-REDDIT_REGEX = re.compile(r'/r/([a-zA-Z0-9_]+)')
+REDDIT_REGEX = re.compile(r'\B/r/(\w+)')
 
 REDDIT_URL = 'https://www.reddit.com/r/{}/'
 
@@ -38,7 +38,7 @@ def get_link(bot, update):
     update.message.reply_text('\n'.join(urls), quote=True)
 
 
-def help(bot, update):
+def start(bot, update):
     return emojize('Turns "/r/subreddit" into'
                    '"https://www.reddit.com/r/subreddit/".\n\n'
                    'Made with :heart: by @caiopo')
@@ -54,6 +54,8 @@ if __name__ == '__main__':
     print(updater.bot.getMe())
 
     dispatcher.add_handler(MessageHandler(Filters.all, get_link))
+    dispatcher.add_handler(CommandHandler('/start', start))
+    dispatcher.add_handler(CommandHandler('/help', start))
 
     updater.start_webhook(
         listen='0.0.0.0', port=config.PORT, url_path=config.BOT_TOKEN)
