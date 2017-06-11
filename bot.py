@@ -31,7 +31,7 @@ def get_link(bot, update):
     print(update.message.text)
     found = REDDIT_REGEX.findall(update.message.text)
 
-    urls = [REDDIT_URL.format(match) for match in found]
+    urls = (REDDIT_URL.format(match) for match in found)
 
     print(urls)
 
