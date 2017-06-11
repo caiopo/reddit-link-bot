@@ -50,14 +50,14 @@ if __name__ == '__main__':
     updater = Updater(token=config.BOT_TOKEN)
 
     dispatcher = updater.dispatcher
-    job_queue = updater.job_queue
 
     print(updater.bot.getMe())
 
     dispatcher.add_handler(MessageHandler(Filters.all, get_link))
 
     updater.start_webhook(
-        listen='0.0.0.0', port=config.PORT, url_path=config.BOT_TOKEN,
-        webhook_url=config.WEBHOOK_URL)
+        listen='0.0.0.0', port=config.PORT, url_path=config.BOT_TOKEN)
+
+    updater.bot.set_webhook(config.WEBHOOK_URL)
 
     updater.idle()
