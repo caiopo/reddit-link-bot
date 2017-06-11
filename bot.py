@@ -56,10 +56,8 @@ if __name__ == '__main__':
 
     dispatcher.add_handler(MessageHandler(Filters.all, get_link))
 
-    # updater.start_webhook(
-    #     listen='0.0.0.0', port=config.PORT, url_path=config.BOT_TOKEN,
-    #     webhook_url=config.WEBHOOK_URL)
-
-    updater.start_polling()
+    updater.start_webhook(
+        listen='0.0.0.0', port=config.PORT, url_path=config.BOT_TOKEN,
+        webhook_url=config.WEBHOOK_URL)
 
     updater.idle()
