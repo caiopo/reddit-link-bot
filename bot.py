@@ -5,7 +5,6 @@ import logging
 import re
 
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
-from emoji import emojize
 
 import config
 
@@ -28,20 +27,12 @@ REDDIT_URL = 'https://www.reddit.com/r/{}/'
 
 
 def get_link(bot, update):
-    print(update.message.text)
     found = REDDIT_REGEX.findall(update.message.text)
 
-    urls = (REDDIT_URL.format(match) for match in found)
+    urls = [REDDIT_URL.format(match) for match in found]
 
-    print(urls)
-
-    update.message.reply_text('\n'.join(urls), quote=True)
-
-
-def start(bot, update):
-    return emojize('Turns "/r/subreddit" into'
-                   '"https://www.reddit.com/r/subreddit/".\n\n'
-                   'Made with :heart: by @caiopo')
+    if len(urls) > 0:
+        update.message.reply_text('\n'.join(urls), quote=True)
 
 
 if __name__ == '__main__':
@@ -51,15 +42,15 @@ if __name__ == '__main__':
 
     dispatcher = updater.dispatcher
 
-    print(updater.bot.getMe())
+    print(updater.bot.get_me())
 
     dispatcher.add_handler(MessageHandler(Filters.all, get_link))
-    dispatcher.add_handler(CommandHandler('/start', start))
-    dispatcher.add_handler(CommandHandler('/help', start))
 
     updater.start_webhook(
         listen='0.0.0.0', port=config.PORT, url_path=config.BOT_TOKEN)
 
     updater.bot.set_webhook(config.WEBHOOK_URL)
+
+    # updater.start_polling()
 
     updater.idle()
