@@ -44,7 +44,8 @@ if __name__ == '__main__':
 
     print(updater.bot.get_me())
 
-    dispatcher.add_handler(MessageHandler(Filters.all, get_link))
+    dispatcher.add_handler(MessageHandler(Filters.all, get_link,
+                                          edited_updates=True))
 
     updater.start_webhook(
         listen='0.0.0.0', port=config.PORT, url_path=config.BOT_TOKEN)
