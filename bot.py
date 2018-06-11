@@ -4,7 +4,7 @@ import argparse
 import logging
 import re
 
-from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
+from telegram.ext import Updater, MessageHandler, Filters
 
 import config
 
