@@ -21,7 +21,7 @@ def resolve_args():
         )
 
 
-REDDIT_REGEX = re.compile(r'(?:\b|\B/)r/(\w+)')
+REDDIT_REGEX = re.compile(r'(?:[^/]\b|\B/)r/(\w+)')
 
 REDDIT_URL = 'https://www.reddit.com/r/{}/'
 
