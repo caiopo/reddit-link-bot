@@ -4,7 +4,7 @@ import argparse
 import logging
 import re
 
-from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
+from telegram.ext import Updater, MessageHandler, Filters
 
 import config
 
@@ -21,7 +21,7 @@ def resolve_args():
         )
 
 
-REDDIT_REGEX = re.compile(r'\B/r/(\w+)')
+REDDIT_REGEX = re.compile(r'(?:[^/]\b|\B/)r/(\w+)')
 
 REDDIT_URL = 'https://www.reddit.com/r/{}/'
 
@@ -44,7 +44,8 @@ if __name__ == '__main__':
 
     print(updater.bot.get_me())
 
-    dispatcher.add_handler(MessageHandler(Filters.all, get_link))
+    dispatcher.add_handler(MessageHandler(Filters.all, get_link,
+                                          edited_updates=True))
 
     updater.start_webhook(
         listen='0.0.0.0', port=config.PORT, url_path=config.BOT_TOKEN)
